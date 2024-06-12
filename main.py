@@ -1,9 +1,12 @@
 import pygame
+import os #sistema de operação do computador para ajudar a puxar imagens
 
 LARGURA, ALTURA = 900, 500
 WIN = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Mini-GuitarHero")
 FPS = 60
+NOTA_MUSICAL = pygame.image.load(os.path.join('Imagens', 'Nota_musical.png'))
+NOTA_MUSICAL_AJUSTADA = pygame.transform.scale(NOTA_MUSICAL, (50, 50))
 
 BRANCO = (255, 255, 255)
 
@@ -16,6 +19,7 @@ def desenhar_linhas_divisao():
 def desenhar():
     WIN.fill((0, 0, 0))  # Preenchendo a tela
     desenhar_linhas_divisao()
+    WIN.blit(NOTA_MUSICAL_AJUSTADA, (100, 100))
     pygame.display.update()   # Atualizando a tela
 
 
