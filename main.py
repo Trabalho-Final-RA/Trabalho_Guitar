@@ -64,21 +64,31 @@ def desenhar(notas, contador):
 
 def teclas(keys, notas, contador):
     if keys[pygame.K_a]:
-        # Definir o retângulo do primeiro quadrante
-        um_quarto_largura = LARGURA_GUITARRA // 4
-        deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
-        quadrante_x_min = deslocamento_x
-        quadrante_x_max = deslocamento_x + um_quarto_largura
-        quadrante_y_min = ALTURA // 2 + 100
-        quadrante_y_max = quadrante_y_min + 70  # Altura da imagem da nota musical
+        contador = verificar_colisao(notas, contador, 0)
+    if keys[pygame.K_s]:
+        contador = verificar_colisao(notas, contador, 1)
+    if keys[pygame.K_d]:
+        contador = verificar_colisao(notas, contador, 2)
+    if keys[pygame.K_f]:
+        contador = verificar_colisao(notas, contador, 3)
+    return contador
 
-        # Verificar se alguma nota está dentro do primeiro quadrante
-        for nota in notas:
-            if (quadrante_x_min <= nota.x <= quadrante_x_max and
-                quadrante_y_min <= nota.y + NOTA_MUSICAL_AJUSTADA.get_height() // 2 <= quadrante_y_max):
-                contador += 1
-                notas.remove(nota)
-                break
+def verificar_colisao(notas, contador, quadrante):
+    # Definir o retângulo do quadrante
+    um_quarto_largura = LARGURA_GUITARRA // 4
+    deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
+    quadrante_x_min = deslocamento_x + quadrante * um_quarto_largura
+    quadrante_x_max = quadrante_x_min + um_quarto_largura
+    quadrante_y_min = ALTURA // 2 + 100
+    quadrante_y_max = quadrante_y_min + 70  # Altura da imagem da nota musical
+
+        # Verificar se alguma nota está dentro do quadrante
+    for nota in notas:
+        if (quadrante_x_min <= nota.x <= quadrante_x_max and
+            quadrante_y_min <= nota.y + NOTA_MUSICAL_AJUSTADA.get_height() // 2 <= quadrante_y_max):
+            contador += 1
+            notas.remove(nota)
+            break
     return contador
 
 def main():
@@ -88,7 +98,7 @@ def main():
 
     # Lista para armazenar as notas musicais
     notas = []
-    
+
     inicio_tempo = pygame.time.get_ticks()
     ultimo_tempo_criacao = inicio_tempo
 
