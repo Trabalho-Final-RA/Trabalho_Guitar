@@ -119,6 +119,8 @@ def main():
                 elif event.key == pygame.K_f:
                     contador, erro = verificar_colisao(notas, contador, 3)
                     erros += erro
+                else:
+                    erros += 1
 
         if tempo_decorrido < DURACAO_CRIACAO_NOTAS and tempo_atual - ultimo_tempo_criacao >= INTERVALO_CRIACAO_NOTAS:
             # Criar nova nota musical a cada 2 segundos durante os primeiros 100 segundos
