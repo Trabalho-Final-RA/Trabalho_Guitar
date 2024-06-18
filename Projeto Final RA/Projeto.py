@@ -2,30 +2,32 @@ import pygame
 import os
 import random
 
+# Inicializar o Pygame
+pygame.init()
+
+# Definir as dimensões da tela
 LARGURA, ALTURA = 900, 500
 LARGURA_GUITARRA = 450
 WIN = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Mini-GuitarHero")
 FPS = 60
 
-# Inicializar o Pygame e o módulo de fontes
-pygame.init()
+# Inicializar fontes
 pygame.font.init()
 
-# Carregamento e redimensionamento da imagem de fundo
+# Carregar e redimensionar imagens
 FUNDO = pygame.image.load(os.path.join('Imagens', 'fundo.png'))
 FUNDO = pygame.transform.scale(FUNDO, (LARGURA, ALTURA))
-
-# Carregar e ajustar a imagem da nota musical
 NOTA_MUSICAL = pygame.image.load(os.path.join('Imagens', 'bola.png'))
 NOTA_MUSICAL_AJUSTADA = pygame.transform.scale(NOTA_MUSICAL, (70, 70))
-
-# Carregar imagens dos botões
 play_img = pygame.image.load(os.path.join('Imagens', 'botao_play.jpg')).convert_alpha()
 exit_img = pygame.image.load(os.path.join('Imagens', 'botao_saida.jpg')).convert_alpha()
 
+# Definir cores
 BRANCO = (255, 255, 255)
-BLACK = (0, 0, 0)
+PRETO = (0, 0, 0)
+
+# Definir constantes
 VELOCIDADE_NOTA = 5
 DURACAO_CRIACAO_NOTAS = 168000  # 168 segundos em milissegundos
 INTERVALO_CRIACAO_NOTAS = 500  # 0,5 segundos em milissegundos
@@ -73,7 +75,6 @@ exit_botao = Button(500, 200, exit_img, 0.5)
 def desenhar_linhas_divisao():
     um_quarto_largura = LARGURA_GUITARRA // 4
     linha_horizontal_y = ALTURA // 2 + 100
-
     deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
 
     for i in range(5):
@@ -96,6 +97,14 @@ def desenhar(notas, contador, erros):
     desenhar_texto(f"Erros: {erros}", 50, 150, 25)
     pygame.display.update()
 
+def calcular_porcentagens(contador, erros):
+    total = contador + erros
+    if total == 0:
+        return 0, 0
+    porcentagem_acertos = (contador / total) * 100
+    porcentagem_erros = (erros / total) * 100
+    return porcentagem_acertos, porcentagem_erros
+
 def verificar_colisao(notas, contador, quadrante):
     um_quarto_largura = LARGURA_GUITARRA // 4
     deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
@@ -114,11 +123,16 @@ def verificar_colisao(notas, contador, quadrante):
             break
     return contador, erro
 
-def show_victory_screen():
-    WIN.fill(BLACK)  # Preencher a tela com a cor preta
+def show_victory_screen(contador, erros):
+    porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
+    WIN.fill(PRETO)  # Preencher a tela com a cor preta
     font = pygame.font.Font(None, 74)
     text = font.render("Vitória!", True, BRANCO)  # Texto branco
     WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
+
+    desenhar_texto(f"Acertos: {porcentagem_acertos:.2f}%", 50, 300, 25)
+    desenhar_texto(f"Erros: {porcentagem_erros:.2f}%", 50, 350, 25)
+
     pygame.display.flip()
 
 def main():
@@ -156,7 +170,7 @@ def main():
                 else:
                     erros += 1
 
-        WIN.fill(BLACK)
+        WIN.fill(PRETO)
         if play_botao.draw(WIN) and not musica_tocando:
             pygame.mixer.music.load(os.path.join('music2.mp3'))
             pygame.mixer.music.play()
@@ -187,7 +201,7 @@ def main():
                 musica_tocando = False
         else:
             if musica_terminada:
-                show_victory_screen()
+                show_victory_screen(contador, erros)
             else:
                 pygame.display.update()
 
