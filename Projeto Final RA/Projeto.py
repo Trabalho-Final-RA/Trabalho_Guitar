@@ -70,9 +70,9 @@ class Button:
 
         return action
 
-play_botao = Button(90, 200, play_img, 0.2)
+play_botao = Button(90, 200, play_img, 0.5)
 exit_botao = Button(500, 200, exit_img, 0.5)
-back_botao = Button(350, 300, back_img, 0.5)
+back_botao = Button(300, 300, back_img, 0.5)
 
 def desenhar_linhas_divisao():
     um_quarto_largura = LARGURA_GUITARRA // 4
@@ -129,7 +129,7 @@ def show_victory_screen(contador, erros):
     porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
     WIN.fill(PRETO)
     font = pygame.font.Font(None, 74)
-    text = font.render("FIM!", True, BRANCO)
+    text = font.render("Créditos:\nAshley martins \nJoão Vitor de Moraes Bringmann \nMatheus Becchi Arruda \nFIM!", True, BRANCO)
     WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
 
     desenhar_texto(f"Acertos: {porcentagem_acertos:.2f}%", 50, 300, 25)
