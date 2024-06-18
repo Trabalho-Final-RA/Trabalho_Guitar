@@ -127,7 +127,7 @@ def show_victory_screen(contador, erros):
     porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
     WIN.fill(PRETO)  # Preencher a tela com a cor preta
     font = pygame.font.Font(None, 74)
-    text = font.render("Vitória!", True, BRANCO)  # Texto branco
+    text = font.render("FIM!", True, BRANCO)  # Texto branco
     WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
 
     desenhar_texto(f"Acertos: {porcentagem_acertos:.2f}%", 50, 300, 25)
