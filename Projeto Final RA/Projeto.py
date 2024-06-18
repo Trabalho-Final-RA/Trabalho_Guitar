@@ -114,6 +114,13 @@ def verificar_colisao(notas, contador, quadrante):
             break
     return contador, erro
 
+def show_victory_screen():
+    WIN.fill(BLACK)  # Preencher a tela com a cor preta
+    font = pygame.font.Font(None, 74)
+    text = font.render("Vitória!", True, BRANCO)  # Texto branco
+    WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
+    pygame.display.flip()
+
 def main():
     clock = pygame.time.Clock()
     run = True
@@ -124,6 +131,7 @@ def main():
     ultimo_tempo_criacao = inicio_tempo
     deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
     musica_tocando = False
+    musica_terminada = False
 
     while run:
         clock.tick(FPS)
@@ -172,8 +180,16 @@ def main():
                 nota.mover()
 
             desenhar(notas, contador, erros)
+
+            # Verificar se a música terminou
+            if not pygame.mixer.music.get_busy():
+                musica_terminada = True
+                musica_tocando = False
         else:
-            pygame.display.update()
+            if musica_terminada:
+                show_victory_screen()
+            else:
+                pygame.display.update()
 
     pygame.quit()
 
