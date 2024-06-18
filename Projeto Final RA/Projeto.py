@@ -70,9 +70,9 @@ class Button:
 
         return action
 
-play_botao = Button(90, 200, play_img, 0.2)
+play_botao = Button(90, 200, play_img, 0.5)
 exit_botao = Button(500, 200, exit_img, 0.5)
-back_botao = Button(350, 300, back_img, 0.5)
+back_botao = Button(300, 300, back_img, 0.5)
 
 def desenhar_linhas_divisao():
     um_quarto_largura = LARGURA_GUITARRA // 4
