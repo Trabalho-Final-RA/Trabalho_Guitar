@@ -6,7 +6,7 @@ LARGURA, ALTURA = 900, 500
 LARGURA_GUITARRA = 450
 WIN = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("Mini-GuitarHero")
-FPS = 120
+FPS = 60
 
 # Inicializar o Pygame e o módulo de fontes
 pygame.init()
