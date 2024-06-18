@@ -22,6 +22,7 @@ NOTA_MUSICAL = pygame.image.load(os.path.join('Imagens', 'bola.png'))
 NOTA_MUSICAL_AJUSTADA = pygame.transform.scale(NOTA_MUSICAL, (70, 70))
 play_img = pygame.image.load(os.path.join('Imagens', 'botao_play.jpg')).convert_alpha()
 exit_img = pygame.image.load(os.path.join('Imagens', 'botao_saida.jpg')).convert_alpha()
+back_img = pygame.image.load(os.path.join('Imagens', 'botao_voltar.jpg')).convert_alpha()
 
 # Definir cores
 BRANCO = (255, 255, 255)
@@ -71,6 +72,7 @@ class Button:
 
 play_botao = Button(90, 200, play_img, 0.2)
 exit_botao = Button(500, 200, exit_img, 0.5)
+back_botao = Button(350, 300, back_img, 0.5)
 
 def desenhar_linhas_divisao():
     um_quarto_largura = LARGURA_GUITARRA // 4
@@ -125,13 +127,16 @@ def verificar_colisao(notas, contador, quadrante):
 
 def show_victory_screen(contador, erros):
     porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
-    WIN.fill(PRETO)  # Preencher a tela com a cor preta
+    WIN.fill(PRETO)
     font = pygame.font.Font(None, 74)
-    text = font.render("FIM!", True, BRANCO)  # Texto branco
+    text = font.render("FIM!", True, BRANCO)
     WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
 
     desenhar_texto(f"Acertos: {porcentagem_acertos:.2f}%", 50, 300, 25)
     desenhar_texto(f"Erros: {porcentagem_erros:.2f}%", 50, 350, 25)
+
+    if back_botao.draw(WIN):
+        return "main_menu"
 
     pygame.display.flip()
 
@@ -146,6 +151,7 @@ def main():
     deslocamento_x = (LARGURA - LARGURA_GUITARRA) // 2
     musica_tocando = False
     musica_terminada = False
+    estado = "main_menu"  # Adicione um estado para gerenciar a tela atual
 
     while run:
         clock.tick(FPS)
@@ -171,15 +177,18 @@ def main():
                     erros += 1
 
         WIN.fill(PRETO)
-        if play_botao.draw(WIN) and not musica_tocando:
-            pygame.mixer.music.load(os.path.join('music2.mp3'))
-            pygame.mixer.music.play()
-            musica_tocando = True
 
-        if exit_botao.draw(WIN):
-            run = False
+        if estado == "main_menu":
+            if play_botao.draw(WIN) and not musica_tocando:
+                pygame.mixer.music.load(os.path.join('music2.mp3'))
+                pygame.mixer.music.play()
+                musica_tocando = True
+                estado = "playing"
 
-        if musica_tocando:
+            if exit_botao.draw(WIN):
+                run = False
+
+        elif estado == "playing":
             tempo_atual = pygame.time.get_ticks()
             tempo_decorrido = tempo_atual - inicio_tempo
 
@@ -195,15 +204,21 @@ def main():
 
             desenhar(notas, contador, erros)
 
-            # Verificar se a música terminou
             if not pygame.mixer.music.get_busy():
                 musica_terminada = True
                 musica_tocando = False
-        else:
-            if musica_terminada:
-                show_victory_screen(contador, erros)
-            else:
-                pygame.display.update()
+                estado = "victory"
+
+        elif estado == "victory":
+            result = show_victory_screen(contador, erros)
+            if result == "main_menu":
+                estado = "main_menu"
+                contador = 0
+                erros = 0
+                notas = []
+                musica_terminada = False
+
+        pygame.display.update()
 
     pygame.quit()
 
