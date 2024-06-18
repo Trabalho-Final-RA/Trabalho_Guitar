@@ -20,9 +20,9 @@ FUNDO = pygame.image.load(os.path.join('Imagens', 'fundo.png'))
 FUNDO = pygame.transform.scale(FUNDO, (LARGURA, ALTURA))
 NOTA_MUSICAL = pygame.image.load(os.path.join('Imagens', 'bola.png'))
 NOTA_MUSICAL_AJUSTADA = pygame.transform.scale(NOTA_MUSICAL, (70, 70))
-play_img = pygame.image.load(os.path.join('Imagens', 'botao_play.jpg')).convert_alpha()
-exit_img = pygame.image.load(os.path.join('Imagens', 'botao_saida.jpg')).convert_alpha()
-back_img = pygame.image.load(os.path.join('Imagens', 'botao_voltar.jpg')).convert_alpha()
+play_img = pygame.image.load(os.path.join('Imagens', 'Start.png')).convert_alpha()
+exit_img = pygame.image.load(os.path.join('Imagens', 'Exit.png')).convert_alpha()
+back_img = pygame.image.load(os.path.join('Imagens', 'resume.png')).convert_alpha()
 
 # Definir cores
 BRANCO = (255, 255, 255)
