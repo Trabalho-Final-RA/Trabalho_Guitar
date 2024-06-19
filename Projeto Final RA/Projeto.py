@@ -20,7 +20,7 @@ FUNDO = pygame.image.load(os.path.join('Imagens', 'fundo.png'))
 FUNDO = pygame.transform.scale(FUNDO, (LARGURA, ALTURA))
 NOTA_MUSICAL = pygame.image.load(os.path.join('Imagens', 'bola.png'))
 NOTA_MUSICAL_AJUSTADA = pygame.transform.scale(NOTA_MUSICAL, (70, 70))
-play_img = pygame.image.load(os.path.join('Imagens', 'Start.png')).convert_alpha()
+play_img = pygame.image.load(os.path.join('Imagens', 'Start.png')).convert_alpha() #Serve para melhorar a imagem e manter a transparencia da imagem (se tiver) 
 exit_img = pygame.image.load(os.path.join('Imagens', 'Exit.png')).convert_alpha()
 back_img = pygame.image.load(os.path.join('Imagens', 'resume.png')).convert_alpha()
 
@@ -56,10 +56,10 @@ class Button:
 
     def draw(self, surface):
         action = False
-        pos = pygame.mouse.get_pos()
+        pos = pygame.mouse.get_pos() #Pega Posição do Mouse
 
         if self.rect.collidepoint(pos):
-            if pygame.mouse.get_pressed()[0] == 1 and not self.clicked:
+            if pygame.mouse.get_pressed()[0] == 1 and not self.clicked: #Verifica se houce clique esquerdo do mouse
                 self.clicked = True
                 action = True
 
