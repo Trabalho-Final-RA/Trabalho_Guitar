@@ -128,7 +128,7 @@ def verificar_colisao(notas, contador, quadrante):
 def show_victory_screen(contador, erros):
     porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
     WIN.fill(PRETO)
-    font = pygame.font.Font(None, 30)
+    font = pygame.font.Font(None, 50)
     creditos = [
         "Créditos:",
         "Ashley Martins",
