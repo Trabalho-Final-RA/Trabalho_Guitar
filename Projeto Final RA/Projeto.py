@@ -129,15 +129,24 @@ def show_victory_screen(contador, erros):
     porcentagem_acertos, porcentagem_erros = calcular_porcentagens(contador, erros)
     WIN.fill(PRETO)
     font = pygame.font.Font(None, 30)
-    text = font.render("Créditos:\nAshley martins \nJoão Vitor de Moraes Bringmann \nMatheus Becchi Arruda \nFIM!", True, BRANCO)
-    WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, ALTURA // 2 - text.get_height() // 2))
+    creditos = [
+        "Créditos:",
+        "Ashley Martins",
+        "João Vitor de Moraes Bringmann",
+        "Matheus Becchi Arruda"
+    ]
+    y_offset = 50
+    for line in creditos:
+        text = font.render(line, True, BRANCO)
+        WIN.blit(text, (LARGURA // 2 - text.get_width() // 2, y_offset))
+        y_offset += text.get_height() + 10  #espaço entre linhas
+
 
     desenhar_texto(f"Acertos: {porcentagem_acertos:.2f}%", 50, 300, 25)
     desenhar_texto(f"Erros: {porcentagem_erros:.2f}%", 50, 350, 25)
 
     if back_botao.draw(WIN):
         return "main_menu"
-
     pygame.display.flip()
 
 def main():
