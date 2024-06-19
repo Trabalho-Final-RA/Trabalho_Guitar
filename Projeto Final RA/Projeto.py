@@ -123,6 +123,8 @@ def verificar_colisao(notas, contador, quadrante):
             notas.remove(nota)
             erro = 0
             break
+    if nota.y > quadrante_y_max:
+            erros += 1
     return contador, erro
 
 def show_victory_screen(contador, erros):
@@ -210,6 +212,9 @@ def main():
 
             for nota in notas:
                 nota.mover()
+                if nota.y > ALTURA:
+                    notas.remove(nota)
+                    erros += 1
 
             desenhar(notas, contador, erros)
 
